@@ -34,4 +34,6 @@ Otherwise you will need to set environment variables:
     python list-all-dast-scans.py (arguments)
 
 ## Supported Arguments:
-- `-o`, `--output_file` - Name of the CSV file to save (default: 'All_DAST_Scans.csv')
+- `-o`, `--output_file` - Name of the CSV file to save (default: 'All_DAST_Scans.csv').
+- `-s`, `--start_date` - Minimum scheduled start date (YYYY-MM-DDTHH:mm:ssZ).
+- `-e`, `--end_date` - Maximum scheduled start date (YYYY-MM-DDTHH:mm:ssZ).
