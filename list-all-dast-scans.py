@@ -1,10 +1,11 @@
 import argparse
 import csv
-from veracode_api_py import Analyses, BusinessUnits, Occurrences
+from veracode_api_py import Analyses, BusinessUnits, Occurrences 
 from veracode_api_py.apihelper import APIHelper
 
 ANALYSIS_CACHE = dict()
 URLS_ISMS_CACHE = dict()
+ENDPOINT_CACHE = dict()
 
 def get_actual_start_date(occurrence):
     return occurrence["actual_start_date"] if "actual_start_date" in occurrence else "NONE"
@@ -26,10 +27,27 @@ def get_status(occurrence):
         return occurrence["status"]["status_type"]
     return 'No status found'
 
-def parse_ism_info(ism_config):
-    gateway_id = ism_config["gateway_id"]
-    endpoint_id = ism_config["endpoint_id"]
-    return f"ISM Gateway ID: {gateway_id}, Endpoint ID: {endpoint_id}"
+def parse_ism_info(ism_info):
+    gateway_id = ism_info["gateway_id"]
+    endpoint_id = ism_info["endpoint_id"]
+    if endpoint_id in ENDPOINT_CACHE:
+        return ENDPOINT_CACHE.get(endpoint_id)
+
+    gateways = APIHelper()._rest_request('dae/api/tcs-api/api/v1/ism_gateways','GET')
+
+    for gateway in gateways:
+        if gateway["refId"] == gateway_id:
+            for endpoint in gateway["endpoints"]:
+                if endpoint["token"] == endpoint_id:
+                    endpoint_info = f"ISM Gateway: {gateway['name']}, Endpoint: {endpoint['name']}"
+                    ENDPOINT_CACHE.update({endpoint_id: endpoint_info})
+                    return endpoint_info
+            break
+
+    endpoint_info = f"ISM Gateway ID: {gateway_id}, Endpoint ID: {endpoint_id}"
+    ENDPOINT_CACHE.update({endpoint_id: endpoint_info})
+
+    return endpoint_info
 
 def get_urls_isms_for_id(analysis_id):
     if analysis_id in URLS_ISMS_CACHE:
