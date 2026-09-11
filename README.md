@@ -25,7 +25,7 @@ Install dependencies:
 ## ISM information
 By default, the script will return the endpoint and gateway IDs. However, it supports the inclusion of an endpoints.csv and a gateways.csv files, which will map these values. An example file can be found for each (endpoints_example.csv and gateways_example.csv).
 
-To extrac the IDs, you can follow the instructions included here: https://docs.veracode.com/r/t_dynamic_ISM. The URL depends on your platform instance, but will be one of these:
+To extract the IDs, you can follow the instructions included here: https://docs.veracode.com/r/t_dynamic_ISM. The URL depends on your platform instance, but will be one of these:
 - https://ui.analysiscenter.veracode.com/mvsa/admin/gateways?depth=1
 - https://ui.analysiscenter.veracode.eu/mvsa/admin/gateways?depth=1
 - https://ui.analysiscenter.veracode.us/mvsa/admin/gateways?depth=1
